@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
 from fastapi.encoders import jsonable_encoder
-from . import crud, models, database
+from sqlalchemy.orm import Session
+
+from . import crud, database
 
 router = APIRouter()
 
@@ -11,7 +12,8 @@ def create_joueur(nom: str, db: Session = Depends(database.get_db)):
     existing_joueur = crud.get_joueur_by_nom(db=db, nom=nom)
     if existing_joueur:
         raise HTTPException(status_code=400, detail="Joueur déjà existant")
-    return crud.create_joueur(db=db, nom=nom)
+    crud.create_joueur(db=db, nom=nom)
+    return {"message": "Joueur créé avec succès"}
 
 
 @router.post("/parties/create/")
@@ -20,8 +22,8 @@ def create_partie(nom_joueur: str, gagnant: bool, db: Session = Depends(database
     if joueur is None:
         raise HTTPException(status_code=404, detail="Joueur non trouvé")
     # Enregistrer la partie avec l'ID du joueur
-    partie = crud.create_partie(db=db, id_joueur=joueur.id, gagnant=gagnant)
-    return {"message": "Partie créée avec succès", "partie": partie}
+    crud.create_partie(db=db, id_joueur=joueur.id, gagnant=gagnant)
+    return {"message": "Partie créée avec succès"}
 
 
 @router.get("/joueurs/{nom}/")
