@@ -9,7 +9,7 @@ router = APIRouter()
 def create_joueur(nom: str, db: Session = Depends(database.get_db)):
     existing_joueur = crud.get_joueur_by_nom(db=db, nom=nom)
     if existing_joueur:
-        raise HTTPException(status_code=400, detail="Joueur déjà existant")
+        raise HTTPException(status_code=200, detail="Joueur déjà existant")
     crud.create_joueur(db=db, nom=nom)
     return {"message": "Joueur créé avec succès"}
 
@@ -18,7 +18,7 @@ def create_joueur(nom: str, db: Session = Depends(database.get_db)):
 def create_partie(nom_joueur: str, gagnant: bool, db: Session = Depends(database.get_db)):
     joueur = crud.get_joueur_by_nom(db=db, nom=nom_joueur)
     if joueur is None:
-        raise HTTPException(status_code=404, detail="Joueur non trouvé")
+        raise HTTPException(status_code=400, detail="Joueur non trouvé")
     # Enregistrer la partie avec l'ID du joueur
     crud.create_partie(db=db, id_joueur=joueur.id, gagnant=gagnant)
     return {"message": "Partie créée avec succès"}
@@ -28,7 +28,7 @@ def create_partie(nom_joueur: str, gagnant: bool, db: Session = Depends(database
 def get_joueur_info(nom: str, db: Session = Depends(database.get_db)):
     joueur = crud.get_joueur_by_nom(db=db, nom=nom)
     if joueur is None:
-        raise HTTPException(status_code=404, detail="Joueur non trouvé")
+        raise HTTPException(status_code=400, detail="Joueur non trouvé")
     nombre_parties = crud.get_nombre_parties_joueur(db=db, id_joueur=joueur.id)
     nombre_parties_gagnees = crud.get_nombre_parties_gagnees_joueur(db=db, id_joueur=joueur.id)
     return {
@@ -42,7 +42,7 @@ def get_joueur_info(nom: str, db: Session = Depends(database.get_db)):
 def get_nombre_parties_joueur(nom: str, db: Session = Depends(database.get_db)):
     joueur = crud.get_joueur_by_nom(db=db, nom=nom)
     if joueur is None:
-        raise HTTPException(status_code=404, detail="Joueur non trouvé")
+        raise HTTPException(status_code=400, detail="Joueur non trouvé")
     return {"nombre_parties": crud.get_nombre_parties_joueur(db=db, id_joueur=joueur.id)}
 
 
@@ -50,5 +50,5 @@ def get_nombre_parties_joueur(nom: str, db: Session = Depends(database.get_db)):
 def get_nombre_parties_gagnees_joueur(nom: str, db: Session = Depends(database.get_db)):
     joueur = crud.get_joueur_by_nom(db=db, nom=nom)
     if joueur is None:
-        raise HTTPException(status_code=404, detail="Joueur non trouvé")
+        raise HTTPException(status_code=400, detail="Joueur non trouvé")
     return {"nombre_parties_gagnees": crud.get_nombre_parties_gagnees_joueur(db=db, id_joueur=joueur.id)}
