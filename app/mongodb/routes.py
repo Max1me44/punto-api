@@ -53,3 +53,9 @@ def get_nombre_parties_gagnees_joueur(nom: str):
     if joueur is None:
         raise HTTPException(status_code=400, detail="Joueur non trouvé")
     return {"nombre_parties_gagnees": crud.get_nombre_parties_gagnees_joueur(id_joueur=joueur["_id"])}
+
+
+@router.post("/reset/all")
+def reset_data():
+    crud.delete_all_data()
+    return {"message": "Données de MongoDB réinitialisées avec succès"}

@@ -52,3 +52,9 @@ def get_nombre_parties_gagnees_joueur(nom: str, db: Session = Depends(database.g
     if joueur is None:
         raise HTTPException(status_code=400, detail="Joueur non trouvé")
     return {"nombre_parties_gagnees": crud.get_nombre_parties_gagnees_joueur(db=db, id_joueur=joueur.id)}
+
+
+@router.post("/reset/all")
+def reset_data(db: Session = Depends(database.get_db)):
+    crud.delete_all_data(db=db)
+    return {"message": "Données de MySQL réinitialisées avec succès"}

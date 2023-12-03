@@ -28,3 +28,10 @@ def get_nombre_parties_joueur(db: Session, id_joueur: int):
 
 def get_nombre_parties_gagnees_joueur(db: Session, id_joueur: int):
     return db.query(Partie).filter(Partie.id_joueur == id_joueur, Partie.gagnant == True).count()
+
+
+def delete_all_data(db: Session):
+    db.query(Partie).delete()
+    db.query(Joueur).delete()
+    db.commit()
+    return True

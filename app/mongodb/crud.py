@@ -24,3 +24,8 @@ def get_nombre_parties_joueur(id_joueur: ObjectId):
 
 def get_nombre_parties_gagnees_joueur(id_joueur: ObjectId):
     return mongo_db.db.parties.count_documents({"id_joueur": id_joueur, "gagnant": True})
+
+
+def delete_all_data():
+    mongo_db.db.parties.delete_many({})
+    mongo_db.db.joueurs.delete_many({})
