@@ -167,5 +167,5 @@ Elle est utilisée dans cette API pour interagir avec les bases de données MySQ
 2. MongoDB  
    MongoDB utilise une structure de données de type document, et n'a pas de schéma fixe. Les données sont stockées sous
    forme de documents JSON, et chaque document peut avoir des champs différents.
-3. SQLite
+3. SQLite  
     ![Diagramme_ER.png](Diagramme.png)
