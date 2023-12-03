@@ -1,7 +1,7 @@
-fastapi[all]~=0.104.1
+fastapi[all]
 uvicorn
-sqlalchemy~=2.0.23
+sqlalchemy
 pymysql
 motor
-pymongo~=4.6.1
-pydantic~=2.5.2
+pymongo
+pydantic
